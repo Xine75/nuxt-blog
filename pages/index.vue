@@ -14,7 +14,7 @@
         id="2"
         thumbnail="https://thumbs.dreamstime.com/z/abstract-tech-background-d-illustration-quantum-computer-architecture-fantastic-night-city-abstract-tech-background-d-illustration-132139771.jpg"
         title="My life on Slack"
-        previewText="Knock knock stick"
+        previewText="Why can't I hear the audio notification knock knock stick?"
       />
       <PostPreview
         id="3"
@@ -49,6 +49,7 @@ export default {
   box-sizing: border-box;
   background-position: center;
   background-size: cover;
+  background-image: url("~assets/images/main-page-background.jpg");
 }
 
 .intro h1 {

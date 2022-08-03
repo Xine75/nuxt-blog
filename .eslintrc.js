@@ -22,7 +22,8 @@ module.exports = {
       {
         "ignores": ["index"]
       }
-    ]
+    ],
+    quotes: [0, "double"]
 
   }
 }

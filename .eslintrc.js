@@ -12,19 +12,18 @@ module.exports = {
     '@nuxtjs',
     'plugin:nuxt/recommended'
   ],
-  plugins: [
-  ],
+  plugins: [],
   // add your custom rules here
   rules: {
-    'vue/multi-word-component-names': "off",
-    "vue/multi-word-component-names": [
-      "error",
-      {
-        "ignores": ["index", "admin", "error"]
-      }
-    ],
-    quotes: [0, "double"],
-    'nuxt/not-timing-in-fetch-data': 'off',
+    'vue/multi-word-component-names': 'off',
+    // "vue/multi-word-component-names": [
+    //   "error",
+    //   {
+    //     "ignores": ["index", "admin", "error"]
+    //   }
+    // ],
+    quotes: [0, 'double'],
+    'nuxt/no-timing-in-fetch-data': 'off'
 
   }
 }

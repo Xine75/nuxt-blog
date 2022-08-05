@@ -1,17 +1,48 @@
 <template>
-  <div class="single-page-post">
+  <div class="single-post-page">
     <section class="post">
+      <h1 class="post-title">
+        {{ loadedPost.title }}
+      </h1>
       <div class="post-details">
-        <h1 class="post-title">Title of Post</h1>
-        <div class="post-detail">Last updated on: </div>
-        <div class="post-detail">Written by: </div>
-        <p class="post-content">Content of the post</p>
-        <p class="post-feedback">Let me know what you think about the post, send a message to <a href="mailto:feedback@my-awesome-domain.com">feedback@my-awesome-domain.com</a></p>
-
+        <div class="post-detail">
+          Last updated on {{ loadedPost.updatedDate }}
+        </div>
+        <div class="post-detail">
+          Written by {{ loadedPost.author }}
+        </div>
       </div>
+      <p class="post-content">
+        {{ loadedPost.content }}
+      </p>
     </section>
+    <p class="post-feedback">
+      Let me know what you think about the post, send a message to <a
+        href="mailto:feedback@my-awesome-domain.com"
+      >feedback@my-awesome-domain.com</a>
+    </p>
   </div>
 </template>
+<script>
+export default {
+  asyncData (context, callback) {
+    setTimeout(() => {
+      callback(null, {
+        loadedPost:
+          {
+            id: '1',
+            title: 'First Post (ID: ' + context.route.params.id + ')',
+            previewText: 'This is my first blog post',
+            author: 'Christine',
+            updatedDate: new Date(),
+            content: 'Some dummy text which is definitely not the preview text',
+            thumbnail: 'https://thumbs.dreamstime.com/z/abstract-tech-background-d-illustration-quantum-computer-architecture-fantastic-night-city-abstract-tech-background-d-illustration-132139771.jpg'
+          }
+      })
+    }, 1000)
+  }
+}
+</script>
 
 <style scoped>
 .single-post-page {

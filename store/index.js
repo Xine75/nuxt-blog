@@ -1,4 +1,5 @@
 import Vuex from 'vuex'
+import axios from 'axios'
 
 const createStore = () => {
   return new Vuex.Store({
@@ -12,26 +13,17 @@ const createStore = () => {
     },
     actions: {
       nuxtServerInit (vuexContext, context) {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            vuexContext.commit('setPosts',
-              [
-                {
-                  id: '1',
-                  title: 'First Post',
-                  previewText: 'This is my first blog post',
-                  thumbnail: 'https://thumbs.dreamstime.com/z/abstract-tech-background-d-illustration-quantum-computer-architecture-fantastic-night-city-abstract-tech-background-d-illustration-132139771.jpg'
-                },
-                {
-                  id: '2',
-                  title: 'Second Post',
-                  previewText: 'Let\'s get ready to ruuuumbllle',
-                  thumbnail: 'https://thumbs.dreamstime.com/z/abstract-tech-background-d-illustration-quantum-computer-architecture-fantastic-night-city-abstract-tech-background-d-illustration-132139771.jpg'
-                }
-              ])
-            resolve()
-          }, 1000)
-        })
+        return axios.get('https://nuxt-blog-4225f-default-rtdb.firebaseio.com/posts.json')
+          .then((res) => {
+            const postsArray = []
+            for (const key in res.data) {
+              postsArray.push({
+                ...res.data[key],
+                id: key
+              })
+            }
+            vuexContext.commit('setPosts', postsArray)
+          })
       },
       setPosts (vuexContext, posts) {
         vuexContext.commit('setPosts', posts)

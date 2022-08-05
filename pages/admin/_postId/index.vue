@@ -1,27 +1,28 @@
 <template>
   <div class="admin-post-page">
-  <section class="update-form">
-  <AdminPostForm :post="loadedPost" />
-  </section>
+    <section class="update-form">
+      <AdminPostForm :post="loadedPost" />
+    </section>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 import AdminPostForm from '~/components/Admin/AdminPostForm'
+
 export default {
-  layout: 'admin',
   components: {
     AdminPostForm
   },
-  data () {
-    return {
-      loadedPost: {
-        author: 'Christine',
-        title: 'My New Lipstick Obsession',
-        content: 'I only want to wear bright colors and gloss',
-        thumbnailLink: 'https://www.seekpng.com/png/full/474-4740034_pop-art-lips.png'
-      }
-    }
+  layout: 'admin',
+  asyncData (context) {
+    return axios.get('https://nuxt-blog-4225f-default-rtdb.firebaseio.com/posts/' + context.params.postId + '.json')
+      .then((res) => {
+        return {
+          loadedPost: res.data
+        }
+      })
+      .catch(e => context.error(e))
   }
 }
 </script>
@@ -31,8 +32,9 @@ export default {
   width: 90%;
   margin: 20px auto;
 }
+
 @media (min-width: 768px) {
-  .update-form{
+  .update-form {
     width: 500px;
   }
 }

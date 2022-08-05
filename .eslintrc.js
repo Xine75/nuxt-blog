@@ -20,10 +20,11 @@ module.exports = {
     "vue/multi-word-component-names": [
       "error",
       {
-        "ignores": ["index"]
+        "ignores": ["index", "admin", "error"]
       }
     ],
-    quotes: [0, "double"]
+    quotes: [0, "double"],
+    'nuxt/not-timing-in-fetch-data': 'off',
 
   }
 }

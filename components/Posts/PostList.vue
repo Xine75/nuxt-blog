@@ -1,28 +1,13 @@
 <template>
   <section class="post-list">
     <PostPreview
-      id="1"
-      thumbnail="https://thumbs.dreamstime.com/z/abstract-tech-background-d-illustration-quantum-computer-architecture-fantastic-night-city-abstract-tech-background-d-illustration-132139771.jpg"
-      title="Has tech gone too far?"
-      previewText="It happened to me: I was asked to identify horses made of clouds in a Captcha"
-    />
-    <PostPreview
-      id="2"
-      thumbnail="https://thumbs.dreamstime.com/z/abstract-tech-background-d-illustration-quantum-computer-architecture-fantastic-night-city-abstract-tech-background-d-illustration-132139771.jpg"
-      title="My life on Slack"
-      previewText="Why can't I hear the audio notification knock knock stick?"
-    />
-    <PostPreview
-      id="3"
-      thumbnail="https://thumbs.dreamstime.com/z/abstract-tech-background-d-illustration-quantum-computer-architecture-fantastic-night-city-abstract-tech-background-d-illustration-132139771.jpg"
-      title="Learning Nuxt"
-      previewText="This guy talks fast"
-    />
-    <PostPreview
-      id="4"
-      thumbnail="https://thumbs.dreamstime.com/z/abstract-tech-background-d-illustration-quantum-computer-architecture-fantastic-night-city-abstract-tech-background-d-illustration-132139771.jpg"
-      title="Learning Vue"
-      previewText="Just like React, except not"
+      v-for="post in posts"
+      :key="post.id"
+      :id="post.id"
+      :is-admin="isAdmin"
+      :thumbnail="post.thumbnail"
+      :title="post.title"
+      :previewText="post.previewText"
     />
   </section>
 </template>
@@ -32,6 +17,16 @@ import PostPreview from '@/components/Posts/PostPreview'
 export default {
   components: {
     PostPreview
+  },
+  props: {
+    isAdmin: {
+      type: Boolean,
+      default: false
+    },
+    posts: {
+      type: Array,
+      required: true
+    }
   }
 }
 </script>

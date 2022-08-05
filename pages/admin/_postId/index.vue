@@ -9,8 +9,11 @@
 <script>
 import AdminPostForm from '~/components/Admin/AdminPostForm'
 export default {
-  components: {AdminPostForm},
-  data(){
+  layout: 'admin',
+  components: {
+    AdminPostForm
+  },
+  data () {
     return {
       loadedPost: {
         author: 'Christine',
@@ -20,11 +23,18 @@ export default {
       }
     }
   }
-
-
 }
 </script>
 
 <style scoped>
+.update-form {
+  width: 90%;
+  margin: 20px auto;
+}
+@media (min-width: 768px) {
+  .update-form{
+    width: 500px;
+  }
+}
 
 </style>

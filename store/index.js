@@ -1,12 +1,13 @@
 import Vuex from 'vuex'
-import axios from 'axios'
 
 //  the store contains state management made possible with veux.
+//  this store is acting as a "back end" by communicating with Firebase
 
 const createStore = () => {
   return new Vuex.Store({
     state: {
-      loadedPosts: []
+      loadedPosts: [],
+      token: null
     },
     mutations: {
       setPosts (state, posts) {
@@ -18,16 +19,19 @@ const createStore = () => {
       editPost (state, editedPost) {
         const postIndex = state.loadedPosts.findIndex(post => post.id === editedPost.id)
         state.loadedPosts[postIndex] = editedPost
+      },
+      setToken (state, token) {
+        state.token = token
       }
     },
     actions: {
       nuxtServerInit (vuexContext, context) {
-        return axios.get('https://nuxt-blog-4225f-default-rtdb.firebaseio.com/posts.json')
-          .then((res) => {
+        return context.app.$axios.$get('/posts.json')
+          .then((data) => {
             const postsArray = []
-            for (const key in res.data) {
+            for (const key in data) {
               postsArray.push({
-                ...res.data[key],
+                ...data[key],
                 id: key
               })
             }
@@ -39,23 +43,36 @@ const createStore = () => {
           ...post,
           updatedDate: new Date()
         }
-        return axios.post('https://nuxt-blog-4225f-default-rtdb.firebaseio.com/posts.json', createdPost)
-          .then((result) => {
+        return this.$axios.$post(process.env.baseUrl + '/posts.json', createdPost)
+          .then((data) => {
             vuexContext.commit('addPost', {
               ...createdPost,
-              id: result.data.name
+              id: data.name
             })
           })
           .catch(e => console.log(e))
       },
       editPost (vuexContext, editedPost) {
-        return axios.put('https://nuxt-blog-4225f-default-rtdb.firebaseio.com/posts/' +
+        return this.$axios.$put('https://nuxt-blog-4225f-default-rtdb.firebaseio.com/posts/' +
           editedPost.id +
           '.json', editedPost)
           .then((res) => {
             vuexContext.commit('editPost', editedPost)
           })
           .catch(e => console.log(e))
+      },
+      authenticateUser (vuexContext, authData) {
+        let authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + process.env.fbAPIKey
+        if (!authData.isLogin) {
+          authUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + process.env.fbAPIKey
+        }
+        return this.$axios.$post(authUrl, {
+          email: authData.email,
+          password: authData.password,
+          returnSecureToken: true
+        }).then((data) => {
+          vuexContext.commit('setToken', data.idToken)
+        }).catch(e => console.log(e))
       },
       setPosts (vuexContext, posts) {
         vuexContext.commit('setPosts', posts)

@@ -18,6 +18,7 @@ export default {
     AdminPostForm
   },
   layout: 'admin',
+  middleware: ['check-auth', 'auth'],
   asyncData (context) {
     return axios.get('https://nuxt-blog-4225f-default-rtdb.firebaseio.com/posts/' +
       context.params.postId +

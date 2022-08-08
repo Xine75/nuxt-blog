@@ -22,6 +22,9 @@ const createStore = () => {
       },
       setToken (state, token) {
         state.token = token
+      },
+      clearToken (state) {
+        state.token = null
       }
     },
     actions: {
@@ -43,7 +46,10 @@ const createStore = () => {
           ...post,
           updatedDate: new Date()
         }
-        return this.$axios.$post(process.env.baseUrl + '/posts.json', createdPost)
+        return this.$axios.$post(process.env.baseUrl +
+          '/posts.json?auth=' +
+          vuexContext.state.token,
+        createdPost)
           .then((data) => {
             vuexContext.commit('addPost', {
               ...createdPost,
@@ -55,7 +61,7 @@ const createStore = () => {
       editPost (vuexContext, editedPost) {
         return this.$axios.$put('https://nuxt-blog-4225f-default-rtdb.firebaseio.com/posts/' +
           editedPost.id +
-          '.json', editedPost)
+          '.json?auth=' + vuexContext.state.token, editedPost)
           .then((res) => {
             vuexContext.commit('editPost', editedPost)
           })
@@ -72,7 +78,24 @@ const createStore = () => {
           returnSecureToken: true
         }).then((data) => {
           vuexContext.commit('setToken', data.idToken)
+          localStorage.setItem('token', data.idToken)
+          localStorage.setItem('tokenExpiration', new Date().getTime() + data.expiresIn * 1000)
+          vuexContext.dispatch('setLogoutTimer', data.expiresIn * 1000)
         }).catch(e => console.log(e))
+      },
+      setLogoutTimer (vuexContext, duration) {
+        setTimeout(() => {
+          vuexContext.commit('clearToken')
+        }, duration)
+      },
+      initAuth (vuexContext) {
+        const token = localStorage.getItem('token')
+        const expirationDate = localStorage.getItem('tokenExpiration')
+        if (new Date().getTime() > +expirationDate || !token) {
+          return
+        }
+        vuexContext.dispatch('setLogoutTimer', +expirationDate - new Date().getTime())
+        vuexContext.commit('setToken', token)
       },
       setPosts (vuexContext, posts) {
         vuexContext.commit('setPosts', posts)
@@ -81,6 +104,9 @@ const createStore = () => {
     getters: {
       loadedPosts (state) {
         return state.loadedPosts
+      },
+      isAuthenticated (state) {
+        return state.token != null
       }
     }
   })

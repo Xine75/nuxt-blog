@@ -2,22 +2,22 @@
   <div>
     <TheHeader @sidenavToggle="displaySidenav=!displaySidenav" />
     <TheSidenav
-    :show="displaySidenav"
-    @close="displaySidenav=false"
+      :show="displaySidenav"
+      @close="displaySidenav=false"
     />
     <nuxt />
   </div>
-
 </template>
 <script>
 import TheHeader from '@/components/Navigation/TheHeader'
 import TheSidenav from '~/components/Navigation/TheSidenav'
-export default{
+
+export default {
   components: {
     TheHeader,
     TheSidenav
   },
-  data(){
+  data () {
     return {
       displaySidenav: false
     }
@@ -27,12 +27,12 @@ export default{
 </script>
 
 <style>
-html{
+html {
   font-family: "Open Sans", sans-serif;
 }
-body{
+
+body {
   margin: 0;
 }
 
 </style>
-

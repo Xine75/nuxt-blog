@@ -29,3 +29,5 @@ function formatDate (inputDate) {
 }
 
 Vue.filter('date', dateFilter)
+
+// this creates human-readable dates form the date stamp provided by new Date()

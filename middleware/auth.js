@@ -3,3 +3,4 @@ export default function (context) {
     context.redirect('/admin/auth')
   }
 }
+// this is middleware

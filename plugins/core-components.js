@@ -6,3 +6,6 @@ import PostList from '@/components/Posts/PostList'
 Vue.component('AppButton', AppButton)
 Vue.component('AppControlInput', AppControlInput)
 Vue.component('PostList', PostList)
+
+// these are now available globally (they are also added to nuxt.config as a plugin.  They no longer have
+// to be imported manually into a component

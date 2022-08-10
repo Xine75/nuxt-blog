@@ -1,3 +1,4 @@
+/*main styles - these handle page transition fades and are called in nuxt.config*/
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }

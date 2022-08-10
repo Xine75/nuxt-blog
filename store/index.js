@@ -10,6 +10,7 @@ const createStore = () => {
       loadedPosts: [],
       token: null
     },
+
     mutations: {
       setPosts (state, posts) {
         state.loadedPosts = posts

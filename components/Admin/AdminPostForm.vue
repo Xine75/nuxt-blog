@@ -1,3 +1,4 @@
+//  page view for creating or editing a post
 <template>
   <div>
     <form @submit.prevent="onSave">
@@ -46,6 +47,8 @@ export default {
       required: false
     }
   },
+  //  creating props object which are handled by method onSave() below
+  //  ternary slugs in values if the post is being edited or fills with empty strings if created
   data () {
     return {
       editedPost: this.post
@@ -59,6 +62,7 @@ export default {
           }
     }
   },
+  //  emits on button click and notifies _postId/index.vue for edit or new-post/index.vue for add
   methods: {
     onSave () {
       // save the post
@@ -71,16 +75,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>
-editedPost: this.post
-? { ...this.post }
-: {
-author: '',
-title: '',
-thumbnail: '',
-content: '',
-previewText: ''
-}

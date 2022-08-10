@@ -1,3 +1,4 @@
+//  component for top header with nav items
 <template>
   <div class="header-container">
     <header class="the-header">
